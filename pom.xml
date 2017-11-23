@@ -44,16 +44,6 @@
         </plugins>
     </build>
 
-
-    <developers>
-        <developer>
-            <name>RiotSeb</name>
-            <url>https://www.spigotmc.org/members/riotseb.292165/</url>
-        </developer>
-    </developers>
-
-
-
     <repositories>
         <repository>
             <id>spigot-repo</id>
@@ -65,7 +55,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.12.1-R0.1-SNAPSHOT</version>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 

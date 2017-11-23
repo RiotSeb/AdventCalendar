@@ -3,3 +3,7 @@ author: [RiotSeb]
 version: ${project.version}
 main: ${project.groupId}.${project.artifactId}.${project.name}
 description: ${project.description}
+
+permissions:
+  AdventCalendar.edit:
+    description: "Edit the AdventCalendar"
