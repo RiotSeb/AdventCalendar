@@ -2,7 +2,7 @@ package de.riotseb.adventcalendar.commands;
 
 
 import de.riotseb.adventcalendar.AdventCalendar;
-import de.riotseb.adventcalendar.calendar.Calendar;
+import de.riotseb.adventcalendar.calendar.AdventCalendarInventory;
 import de.riotseb.adventcalendar.util.MessageHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -17,7 +17,7 @@ import java.util.*;
 public class AdventCalendarCommand extends BukkitCommand {
 
     private MessageHandler msgHandler = new MessageHandler();
-    public static Map<UUID, Calendar> calendars = new HashMap<>();
+    private static Map<UUID, AdventCalendarInventory> calendars = new HashMap<>();
 
     public AdventCalendarCommand(String command, String description, String... aliases) {
         super(command);
@@ -28,7 +28,7 @@ public class AdventCalendarCommand extends BukkitCommand {
 
     }
 
-    public static Map<UUID, Calendar> getCalendars() {
+    public static Map<UUID, AdventCalendarInventory> getCalendars() {
         return calendars;
     }
 
@@ -47,7 +47,7 @@ public class AdventCalendarCommand extends BukkitCommand {
             if (args.length == 0) {
 
 
-                Calendar calendar = new Calendar();
+                AdventCalendarInventory calendar = new AdventCalendarInventory();
 
                 p.openInventory(calendar.getCalendar());
                 calendars.put(p.getUniqueId(), calendar);

@@ -1,9 +1,10 @@
 package de.riotseb.adventcalendar.listener;
 
-import de.riotseb.adventcalendar.calendar.Calendar;
+import de.riotseb.adventcalendar.calendar.AdventCalendarInventory;
 import de.riotseb.adventcalendar.commands.AdventCalendarCommand;
 import de.riotseb.adventcalendar.util.MessageHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,9 +25,9 @@ import java.util.UUID;
  */
 public class InventoryClickListener implements Listener {
 
-    private Map<UUID, Calendar> calendars = AdventCalendarCommand.getCalendars();
-    private File file = new File("plugins/AdventCalendar/adventcalendar.yml");
-    private YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+    private Map<UUID, AdventCalendarInventory> calendars = AdventCalendarCommand.getCalendars();
+    private static File file = new File("plugins/AdventCalendar/adventcalendar.yml");
+    private static YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
     private MessageHandler msgHandler = new MessageHandler();
 
 
@@ -39,8 +42,7 @@ public class InventoryClickListener implements Listener {
 
                 e.setCancelled(true);
 
-                Calendar calendar = calendars.get(p.getUniqueId());
-
+                AdventCalendarInventory calendar = calendars.get(p.getUniqueId());
 
                 Map<Integer, Integer> positions = calendar.getPositions();
 
@@ -48,27 +50,38 @@ public class InventoryClickListener implements Listener {
 
                 Bukkit.broadcastMessage("day: " + day);
 
-                if (config.get("Day " + day) != null) {
+                if (day != null) {
 
-                    List<ItemStack> items = (List<ItemStack>) config.getList("Day " + day);
+                    Calendar cal = Calendar.getInstance();
 
-                    if (!checkSpace(p.getInventory(), items.size())) {
-                        p.closeInventory();
-                        p.sendMessage(msgHandler.getMessage("not enough space"));
-                        return;
+                    if (cal.get(Calendar.MONTH) == Calendar.DECEMBER) {
+
+                        if (cal.get(Calendar.DAY_OF_MONTH) == day - 1) {
+
+                            if (config.get("Day " + day) != null) {
+
+                                List<ItemStack> items = (List<ItemStack>) config.getList("Day " + day);
+
+                                if (!checkSpace(p.getInventory(), items.size())) {
+                                    p.closeInventory();
+                                    p.sendMessage(msgHandler.getMessage("not enough space"));
+                                    return;
+                                }
+
+                                items.forEach(itemStack -> p.getInventory().addItem(itemStack));
+
+                                p.sendMessage(msgHandler.getMessage("items granted"));
+
+                            } else {
+                                p.sendMessage(msgHandler.getMessage("no presents set for day"));
+                            }
+
+                        }
+                    } else {
+                        Bukkit.broadcastMessage("falsches datum");
                     }
-
-                    items.forEach(itemStack -> p.getInventory().addItem(itemStack));
-
-                    p.sendMessage(msgHandler.getMessage("items granted"));
-
-                } else {
-                    p.sendMessage(msgHandler.getMessage("no presents set for day"));
                 }
-
             }
-
-
         }
 
     }
@@ -86,6 +99,14 @@ public class InventoryClickListener implements Listener {
 
         return neededspace <= free;
 
+    }
+
+    static void reloadConfig() {
+        try {
+            config.load(file);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
 

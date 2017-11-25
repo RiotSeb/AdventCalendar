@@ -1,7 +1,7 @@
 package de.riotseb.adventcalendar.listener;
 
 import de.riotseb.adventcalendar.AdventCalendar;
-import de.riotseb.adventcalendar.calendar.Calendar;
+import de.riotseb.adventcalendar.calendar.AdventCalendarInventory;
 import de.riotseb.adventcalendar.commands.AdventCalendarCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -59,12 +59,13 @@ public class InventoryCloseListener implements Listener {
             }
 
             p.removeMetadata("editcalendar", AdventCalendar.getPlugin());
+            InventoryClickListener.reloadConfig();
 
         }
 
         if (p.hasMetadata("calendar")) {
 
-            Map<UUID, Calendar> calendars = AdventCalendarCommand.getCalendars();
+            Map<UUID, AdventCalendarInventory> calendars = AdventCalendarCommand.getCalendars();
 
             if (calendars.containsKey(p.getUniqueId())) {
                 calendars.remove(p.getUniqueId());

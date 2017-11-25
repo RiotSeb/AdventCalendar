@@ -75,27 +75,8 @@ public class ItemBuilder {
     }
 
 
-    public ItemStack getPresentHead1(String displayname, String... lore) {
-        String url = "http://textures.minecraft.net/texture/82601ec489c0652751576984d8535f5049c8e0abd73a8a3d51e0727ef2f2";
-
-
-        this.itemstack = getSkull(url, displayname, lore);
-
-        return itemstack;
-    }
-
-    public ItemStack getPresentHead2(String displayname, String... lore) {
+    public ItemStack getPresentHead(String displayname, String... lore) {
         String url = "http://textures.minecraft.net/texture/ef79f376f45cc3623f73c63de1427f7dd2acbaf8e5d7844d94d254924ba290";
-
-
-        this.itemstack = getSkull(url, displayname, lore);
-
-        return itemstack;
-    }
-
-    public ItemStack getPresentHead3(String displayname, String... lore) {
-        String url = "http://textures.minecraft.net/texture/96e39283e199c11363bfbd1adb47bd305090da562f3717a4f067438ba06525";
-
 
         this.itemstack = getSkull(url, displayname, lore);
 

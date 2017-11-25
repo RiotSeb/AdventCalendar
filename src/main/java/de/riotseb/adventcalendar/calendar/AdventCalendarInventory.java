@@ -6,29 +6,25 @@ import de.riotseb.adventcalendar.util.MessageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.util.*;
 
 /**
  * Class created by RiotSeb on 23.11.2017.
  */
-public class Calendar {
+public class AdventCalendarInventory {
 
     private Inventory inv;
     private Random random = new Random();
-    private File file = new File("plugins/AdventCalendar/adventcalendar.yml");
-    private YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
     private MessageHandler msgHandler = new MessageHandler();
-    // Map<Position in Inventory, Adventday)
+    // Map<Position in inventory, Adventday) positions
     private Map<Integer, Integer> positions = new HashMap<>();
     private List<Integer> availablePos = new ArrayList<>();
 
 
-    public Calendar() {
+    public AdventCalendarInventory() {
 
 
         inv = Bukkit.createInventory(null, 54, msgHandler.getPrefix());
@@ -47,15 +43,6 @@ public class Calendar {
 
     }
 
-
-    public Inventory getCalendar() {
-        return this.inv;
-    }
-
-    public Map<Integer, Integer> getPositions() {
-        return positions;
-    }
-
     private void fillInventory() {
 
 
@@ -67,7 +54,7 @@ public class Calendar {
 
             positions.put(day, x);
 
-            inv.setItem(day, new ItemBuilder().getPresentHead2(ChatColor.RESET + "Day " + x));
+            inv.setItem(day, new ItemBuilder().getPresentHead(ChatColor.RESET + "Day " + x));
 
             availablePos.remove(day);
 
@@ -77,4 +64,14 @@ public class Calendar {
 
     }
 
+
+    public Inventory getCalendar() {
+        return this.inv;
+    }
+
+    public Map<Integer, Integer> getPositions() {
+        return positions;
+    }
+
+    
 }

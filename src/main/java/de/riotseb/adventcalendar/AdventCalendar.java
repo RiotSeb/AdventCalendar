@@ -8,9 +8,11 @@ import de.riotseb.adventcalendar.listener.PlayerQuitListener;
 import de.riotseb.adventcalendar.util.MessageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
+import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Field;
 
 /**
  * Class created by RiotSeb on 23.11.2017.
@@ -60,10 +62,27 @@ public class AdventCalendar extends JavaPlugin {
     }
 
     private void registerCommand(String name, Command command) {
-        ((CraftServer) this.getServer()).getCommandMap().register(name, command);
+
+        Class<?> craftserver = Bukkit.getServer().getClass();
+
+        try {
+
+            Field commandMapField = craftserver.getDeclaredField("commandMap");
+            commandMapField.setAccessible(true);
+
+            CommandMap commandMap = (CommandMap) commandMapField.get(Bukkit.getServer());
+            commandMap.register(name, command);
+
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static AdventCalendar getPlugin() {
         return plugin;
     }
+
+
 }
