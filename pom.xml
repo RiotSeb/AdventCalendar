@@ -11,6 +11,7 @@
     <description>A simple customizable advent calendar plugin.</description>
 
     <properties>
+        <author>RiotSeb</author>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>dd.MM.yyyy HH:mm</maven.build.timestamp.format>
     </properties>
@@ -23,8 +24,14 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>plugin.yml</include>
-                    <include>messages.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
                     <include>adventcalendar.yml</include>
+                    <include>messages.yml</include>
                     <include>openedpresents.yml</include>
                 </includes>
             </resource>

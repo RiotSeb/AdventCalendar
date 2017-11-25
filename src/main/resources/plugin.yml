@@ -1,9 +1,5 @@
 name: ${project.name}
-author: [RiotSeb]
-version: ${project.version}(${timestamp})
+author: ${author}
+version: ${project.version}(built ${timestamp})
 main: ${project.groupId}.${project.artifactId}.${project.name}
 description: ${project.description}
-
-permissions:
-  AdventCalendar.edit:
-    description: "Edit the AdventCalendar"

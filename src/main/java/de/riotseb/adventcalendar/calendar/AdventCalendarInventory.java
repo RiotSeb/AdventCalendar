@@ -17,7 +17,7 @@ import java.util.*;
 public class AdventCalendarInventory {
 
     private Inventory inv;
-    // Map syntax<Position in inventory, Adventday)
+    // Map syntax <Position in inventory, Adventday)
     private Map<Integer, Integer> positions = new HashMap<>();
 
 
