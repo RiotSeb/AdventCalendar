@@ -1,6 +1,8 @@
 package de.riotseb.adventcalendar.listener;
 
 import de.riotseb.adventcalendar.AdventCalendar;
+import de.riotseb.adventcalendar.calendar.Calendar;
+import de.riotseb.adventcalendar.commands.AdventCalendarCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Class created by RiotSeb on 25.11.2017.
@@ -57,6 +61,19 @@ public class InventoryCloseListener implements Listener {
             p.removeMetadata("editcalendar", AdventCalendar.getPlugin());
 
         }
+
+        if (p.hasMetadata("calendar")) {
+
+            Map<UUID, Calendar> calendars = AdventCalendarCommand.getCalendars();
+
+            if (calendars.containsKey(p.getUniqueId())) {
+                calendars.remove(p.getUniqueId());
+            }
+
+            p.removeMetadata("calendar", AdventCalendar.getPlugin());
+        }
+
+
     }
 
 }

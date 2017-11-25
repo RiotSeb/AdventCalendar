@@ -67,7 +67,6 @@ public class EditCalendarCommand extends BukkitCommand {
 
                         p.setMetadata("editcalendar", new FixedMetadataValue(AdventCalendar.getPlugin(), day));
 
-
                         Inventory inv = Bukkit.createInventory(null, 54, msgHandler.getMessage("edit calendar inventory title")
                                 .replaceAll("%day%", day.toString()));
 

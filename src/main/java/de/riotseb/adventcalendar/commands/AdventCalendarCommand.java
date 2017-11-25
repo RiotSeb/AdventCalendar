@@ -1,14 +1,15 @@
 package de.riotseb.adventcalendar.commands;
 
 
+import de.riotseb.adventcalendar.AdventCalendar;
+import de.riotseb.adventcalendar.calendar.Calendar;
 import de.riotseb.adventcalendar.util.MessageHandler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Class created by RiotSeb on 23/11/2017.
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class AdventCalendarCommand extends BukkitCommand {
 
     private MessageHandler msgHandler = new MessageHandler();
+    public static Map<UUID, Calendar> calendars = new HashMap<>();
 
     public AdventCalendarCommand(String command, String description, String... aliases) {
         super(command);
@@ -26,23 +28,35 @@ public class AdventCalendarCommand extends BukkitCommand {
 
     }
 
+    public static Map<UUID, Calendar> getCalendars() {
+        return calendars;
+    }
+
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§CNur als Spieler nutzbar.");
+            sender.sendMessage(msgHandler.getMessage("player only use"));
             return true;
         }
 
         Player p = (Player) sender;
 
-        if (p.hasPermission("")) {
+        if (p.hasPermission("AdventCalendar.use")) {
 
             if (args.length == 0) {
 
 
+                Calendar calendar = new Calendar();
+
+                p.openInventory(calendar.getCalendar());
+                calendars.put(p.getUniqueId(), calendar);
+
+                p.setMetadata("calendar", new FixedMetadataValue(AdventCalendar.getPlugin(), true));
+
+                return true;
             } else {
-                msgHandler.sendUsage(p, "");
+                msgHandler.sendUsage(p, "/ac");
                 return true;
             }
 
@@ -50,7 +64,6 @@ public class AdventCalendarCommand extends BukkitCommand {
             p.sendMessage(msgHandler.getMessage("no perms"));
             return true;
         }
-        return false;
     }
 
 

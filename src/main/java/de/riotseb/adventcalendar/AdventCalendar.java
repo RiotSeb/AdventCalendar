@@ -1,6 +1,8 @@
 package de.riotseb.adventcalendar;
 
+import de.riotseb.adventcalendar.commands.AdventCalendarCommand;
 import de.riotseb.adventcalendar.commands.EditCalendarCommand;
+import de.riotseb.adventcalendar.listener.InventoryClickListener;
 import de.riotseb.adventcalendar.listener.InventoryCloseListener;
 import de.riotseb.adventcalendar.listener.PlayerQuitListener;
 import de.riotseb.adventcalendar.util.MessageHandler;
@@ -25,6 +27,7 @@ public class AdventCalendar extends JavaPlugin {
         setupCommands();
         registerEvents();
 
+
         plugin = this;
 
         new MessageHandler(this);
@@ -44,6 +47,7 @@ public class AdventCalendar extends JavaPlugin {
     }
 
     private void setupCommands() {
+        registerCommand("adventcalendar", new AdventCalendarCommand("adventcalendar", "Open the adventcalendar", "ac"));
         registerCommand("editcalendar", new EditCalendarCommand("editcalendar", "Edit the Adventcalendar", "eac", "ec", "ecalendar"));
     }
 
@@ -52,6 +56,7 @@ public class AdventCalendar extends JavaPlugin {
 
         pm.registerEvents(new InventoryCloseListener(), this);
         pm.registerEvents(new PlayerQuitListener(), this);
+        pm.registerEvents(new InventoryClickListener(), this);
     }
 
     private void registerCommand(String name, Command command) {

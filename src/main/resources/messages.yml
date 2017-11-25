@@ -5,3 +5,6 @@ edit calendar instructions: "&eTo edit the calendar type a number from 1 up to 2
 not a number: "&e%string% &cis not a number!"
 no number between 1 and 24: "&cYour number must be between 1 and 24. (&e%number%&c)"
 edit calendar inventory title: "&ledit day %day%"
+not enough space: "&cYou do not have enough space in your inventory for this present(s)."
+items granted: "&aYou received the presents for today!"
+no presents set for day: "&cThere has not been presents set for this day yet."
