@@ -5,10 +5,13 @@ import de.riotseb.adventcalendar.util.MessageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,13 +64,27 @@ public class EditCalendarCommand extends BukkitCommand {
 
                 for (Integer i = 1; i <= 24; i++) {
                     if (i.equals(day)) {
-                        p.sendMessage("Eingegebene Zahl: " + day);
 
                         p.setMetadata("editcalendar", new FixedMetadataValue(AdventCalendar.getPlugin(), day));
 
 
                         Inventory inv = Bukkit.createInventory(null, 54, msgHandler.getMessage("edit calendar inventory title")
                                 .replaceAll("%day%", day.toString()));
+
+                        File file = new File("plugins/AdventCalendar/adventcalendar.yml");
+                        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+                        if (config.get("Day " + day) != null) {
+
+
+                            List<ItemStack> items = (List<ItemStack>) config.getList("Day " + day);
+
+                            for (ItemStack item : items) {
+                                inv.addItem(item);
+                            }
+
+                        }
+
 
                         p.openInventory(inv);
 
