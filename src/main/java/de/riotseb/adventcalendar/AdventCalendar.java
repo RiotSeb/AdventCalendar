@@ -1,9 +1,13 @@
 package de.riotseb.adventcalendar;
 
 import de.riotseb.adventcalendar.commands.EditCalendarCommand;
+import de.riotseb.adventcalendar.listener.InventoryCloseListener;
+import de.riotseb.adventcalendar.listener.PlayerQuitListener;
 import de.riotseb.adventcalendar.util.MessageHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.craftbukkit.v1_12_R1.CraftServer;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -11,12 +15,17 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class AdventCalendar extends JavaPlugin {
 
+    private static AdventCalendar plugin;
+
 
     @Override
     public void onEnable() {
 
         setupFiles();
         setupCommands();
+        registerEvents();
+
+        plugin = this;
 
         new MessageHandler(this);
 
@@ -29,16 +38,26 @@ public class AdventCalendar extends JavaPlugin {
     }
 
 
-    private void setupFiles(){
+    private void setupFiles() {
         this.saveResource("messages.yml", false);
     }
 
-    private void setupCommands(){
+    private void setupCommands() {
         registerCommand("editcalendar", new EditCalendarCommand("editcalendar", "Edit the Adventcalendar", "eac", "ec", "ecalendar"));
     }
 
-    private void registerCommand(String name, Command command){
+    private void registerEvents() {
+        PluginManager pm = Bukkit.getPluginManager();
+
+        pm.registerEvents(new InventoryCloseListener(), this);
+        pm.registerEvents(new PlayerQuitListener(), this);
+    }
+
+    private void registerCommand(String name, Command command) {
         ((CraftServer) this.getServer()).getCommandMap().register(name, command);
     }
 
+    public static AdventCalendar getPlugin() {
+        return plugin;
+    }
 }

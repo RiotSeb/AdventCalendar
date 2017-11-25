@@ -1,6 +1,7 @@
-prefix: "&7[&3AdventCalendar&7] "
+prefix: "&7[&3AdventCalendar&7] &r"
 player only use: "&cYou may use this command as player only."
 no perms: "&cYou do not have enough permissions to do that."
 edit calendar instructions: "&eTo edit the calendar type a number from 1 up to 24 behind the command.\n&eAn inventory is going to show up. Put the desired items for that day into that inventory.\n&eOnce you have put all items into the inventory, close the inventory to save it."
 not a number: "&e%string% &cis not a number!"
 no number between 1 and 24: "&cYour number must be between 1 and 24. (&e%number%&c)"
+edit calendar inventory title: "&ledit day %day%"

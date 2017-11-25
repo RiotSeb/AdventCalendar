@@ -1,9 +1,13 @@
 package de.riotseb.adventcalendar.commands;
 
+import de.riotseb.adventcalendar.AdventCalendar;
 import de.riotseb.adventcalendar.util.MessageHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,15 +59,24 @@ public class EditCalendarCommand extends BukkitCommand {
                     return true;
                 }
 
-                    for (Integer i = 1; i <= 24; i++) {
-                        if (i.equals(day)){
-                            p.sendMessage("Eingegebene Zahl: " + day);
-                            return true;
-                        }
-                    }
+                for (Integer i = 1; i <= 24; i++) {
+                    if (i.equals(day)) {
+                        p.sendMessage("Eingegebene Zahl: " + day);
 
-                    p.sendMessage(msgHandler.getMessage("no number between 1 and 24").replaceAll("%number%", day.toString()));
-                    return true;
+                        p.setMetadata("editcalendar", new FixedMetadataValue(AdventCalendar.getPlugin(), day));
+
+
+                        Inventory inv = Bukkit.createInventory(null, 54, msgHandler.getMessage("edit calendar inventory title")
+                                .replaceAll("%day%", day.toString()));
+
+                        p.openInventory(inv);
+
+                        return true;
+                    }
+                }
+
+                p.sendMessage(msgHandler.getMessage("no number between 1 and 24").replaceAll("%number%", day.toString()));
+                return true;
 
 
             } else {
