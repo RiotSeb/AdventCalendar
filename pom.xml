@@ -10,6 +10,11 @@
     <name>AdventCalendar</name>
     <description>A simple customizable advent calendar plugin.</description>
 
+    <properties>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>dd.MM.yyyy HH:mm</maven.build.timestamp.format>
+    </properties>
+
 
     <build>
         <resources>
@@ -18,9 +23,9 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>plugin.yml</include>
-                    <include>config.yml</include>
                     <include>messages.yml</include>
                     <include>adventcalendar.yml</include>
+                    <include>openedpresents.yml</include>
                 </includes>
             </resource>
         </resources>

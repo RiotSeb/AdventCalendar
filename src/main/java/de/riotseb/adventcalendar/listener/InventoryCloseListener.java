@@ -3,6 +3,7 @@ package de.riotseb.adventcalendar.listener;
 import de.riotseb.adventcalendar.AdventCalendar;
 import de.riotseb.adventcalendar.calendar.AdventCalendarInventory;
 import de.riotseb.adventcalendar.commands.AdventCalendarCommand;
+import de.riotseb.adventcalendar.util.MessageHandler;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,6 +28,7 @@ public class InventoryCloseListener implements Listener {
 
     private File file = new File("plugins/AdventCalendar/adventcalendar.yml");
     private YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+    private MessageHandler msgHandler = new MessageHandler();
 
 
     @EventHandler
@@ -38,10 +40,7 @@ public class InventoryCloseListener implements Listener {
         if (p.hasMetadata("editcalendar")) {
 
             List<MetadataValue> metadata = p.getMetadata("editcalendar");
-
             Integer day = metadata.get(0).asInt();
-            
-
             List<ItemStack> items = new ArrayList<>();
 
             inv.forEach(itemStack -> {
@@ -58,6 +57,7 @@ public class InventoryCloseListener implements Listener {
                 e1.printStackTrace();
             }
 
+            p.sendMessage(msgHandler.getMessage("inventory saved").replaceAll("%day%", day.toString()));
             p.removeMetadata("editcalendar", AdventCalendar.getPlugin());
             InventoryClickListener.reloadConfig();
 

@@ -45,7 +45,6 @@ public class EditCalendarCommand extends BukkitCommand {
         if (p.hasPermission("AdventCalendar.edit")) {
 
             if (args.length == 0) {
-
                 p.sendMessage(msgHandler.getMessage("edit calendar instructions"));
                 return true;
             }
@@ -53,7 +52,6 @@ public class EditCalendarCommand extends BukkitCommand {
             if (args.length == 1) {
 
                 Integer day;
-
 
                 try {
                     day = Integer.parseInt(args[0]);
@@ -75,7 +73,6 @@ public class EditCalendarCommand extends BukkitCommand {
 
                         if (config.get("Day " + day) != null) {
 
-
                             List<ItemStack> items = (List<ItemStack>) config.getList("Day " + day);
 
                             for (ItemStack item : items) {
@@ -94,18 +91,13 @@ public class EditCalendarCommand extends BukkitCommand {
                 p.sendMessage(msgHandler.getMessage("no number between 1 and 24").replaceAll("%number%", day.toString()));
                 return true;
 
-
             } else {
                 msgHandler.sendUsage(p, "/ec");
                 return true;
             }
-
         } else {
             p.sendMessage(msgHandler.getMessage("no perms"));
             return true;
         }
-
     }
-
-
 }

@@ -1,6 +1,5 @@
 package de.riotseb.adventcalendar.util;
 
-import de.riotseb.adventcalendar.AdventCalendar;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,16 +11,8 @@ import java.io.File;
  */
 public class MessageHandler {
 
-    private AdventCalendar plugin;
     private File file = new File("plugins/AdventCalendar/messages.yml");
     private YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-
-
-    public MessageHandler(AdventCalendar plugin){
-        this.plugin = plugin;
-    }
-
-    public MessageHandler(){}
 
     /**
      * Get a message from the messages.yml
@@ -58,7 +49,6 @@ public class MessageHandler {
 
         String prefix = config.getString("prefix");
 
-
         if (prefix != null) {
 
             prefix = ChatColor.translateAlternateColorCodes('&', prefix);
@@ -73,7 +63,6 @@ public class MessageHandler {
 
     }
 
-
     /**
      * Send usage instructions of a command to a commandsender
      *
@@ -82,7 +71,7 @@ public class MessageHandler {
      */
 
     public void sendUsage(CommandSender sender, String commandusage) {
-        sender.sendMessage(ChatColor.GREEN + "Nutze:");
+        sender.sendMessage(ChatColor.GREEN + "Usage:");
         sender.sendMessage(ChatColor.GRAY + "    \u00BB " + ChatColor.RED + commandusage);
     }
 

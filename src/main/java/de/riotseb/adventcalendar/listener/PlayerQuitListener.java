@@ -20,6 +20,10 @@ public class PlayerQuitListener implements Listener {
             p.removeMetadata("editcalendar", AdventCalendar.getPlugin());
         }
 
+        if (p.hasMetadata("calendar")) {
+            p.removeMetadata("calendar", AdventCalendar.getPlugin());
+        }
+
     }
 
 }

@@ -28,10 +28,6 @@ public class AdventCalendarCommand extends BukkitCommand {
 
     }
 
-    public static Map<UUID, AdventCalendarInventory> getCalendars() {
-        return calendars;
-    }
-
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
 
@@ -45,7 +41,6 @@ public class AdventCalendarCommand extends BukkitCommand {
         if (p.hasPermission("AdventCalendar.use")) {
 
             if (args.length == 0) {
-
 
                 AdventCalendarInventory calendar = new AdventCalendarInventory();
 
@@ -66,5 +61,7 @@ public class AdventCalendarCommand extends BukkitCommand {
         }
     }
 
-
+    public static Map<UUID, AdventCalendarInventory> getCalendars() {
+        return calendars;
+    }
 }

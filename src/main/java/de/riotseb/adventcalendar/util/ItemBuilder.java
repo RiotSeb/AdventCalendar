@@ -5,7 +5,6 @@ import com.mojang.authlib.properties.Property;
 import org.apache.commons.codec.binary.Base64;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -23,14 +22,6 @@ public class ItemBuilder {
 
 
     public ItemBuilder() {
-    }
-
-    public ItemBuilder(Material material) {
-        this.itemstack = new ItemStack(material, 1);
-    }
-
-    public ItemBuilder(Material material, Integer amount) {
-        this.itemstack = new ItemStack(material, amount);
     }
 
     public ItemBuilder(Material material, Integer amount, Byte data) {
@@ -53,14 +44,6 @@ public class ItemBuilder {
 
         this.itemstack.setItemMeta(meta);
 
-        return this;
-    }
-
-    public ItemBuilder withEnchantment(Enchantment enchantment, Integer level, boolean ignoreLevelRestriction) {
-        ItemMeta meta = this.itemstack.getItemMeta();
-        meta.addEnchant(enchantment, level, ignoreLevelRestriction);
-
-        this.itemstack.setItemMeta(meta);
         return this;
     }
 

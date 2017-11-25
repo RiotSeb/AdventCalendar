@@ -5,7 +5,6 @@ import de.riotseb.adventcalendar.commands.EditCalendarCommand;
 import de.riotseb.adventcalendar.listener.InventoryClickListener;
 import de.riotseb.adventcalendar.listener.InventoryCloseListener;
 import de.riotseb.adventcalendar.listener.PlayerQuitListener;
-import de.riotseb.adventcalendar.util.MessageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
@@ -24,15 +23,11 @@ public class AdventCalendar extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        plugin = this;
 
         setupFiles();
         setupCommands();
         registerEvents();
-
-
-        plugin = this;
-
-        new MessageHandler(this);
 
         this.getLogger().info("enabled!");
     }
@@ -46,6 +41,7 @@ public class AdventCalendar extends JavaPlugin {
     private void setupFiles() {
         this.saveResource("messages.yml", false);
         this.saveResource("adventcalendar.yml", false);
+        this.saveResource("openedpresents.yml", false);
     }
 
     private void setupCommands() {

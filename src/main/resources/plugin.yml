@@ -1,6 +1,6 @@
 name: ${project.name}
 author: [RiotSeb]
-version: ${project.version}
+version: ${project.version}(${timestamp})
 main: ${project.groupId}.${project.artifactId}.${project.name}
 description: ${project.description}
 

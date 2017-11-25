@@ -17,15 +17,14 @@ import java.util.*;
 public class AdventCalendarInventory {
 
     private Inventory inv;
-    private Random random = new Random();
-    private MessageHandler msgHandler = new MessageHandler();
-    // Map<Position in inventory, Adventday) positions
+    // Map syntax<Position in inventory, Adventday)
     private Map<Integer, Integer> positions = new HashMap<>();
-    private List<Integer> availablePos = new ArrayList<>();
 
 
     public AdventCalendarInventory() {
-
+        Random random = new Random();
+        MessageHandler msgHandler = new MessageHandler();
+        List<Integer> availablePos = new ArrayList<>();
 
         inv = Bukkit.createInventory(null, 54, msgHandler.getPrefix());
 
@@ -38,32 +37,18 @@ public class AdventCalendarInventory {
             availablePos.add(i);
         }
 
-        fillInventory();
-
-
-    }
-
-    private void fillInventory() {
-
-
-        for (Integer x = 1; x <= 24; x++) {
+        for (Integer day = 1; day <= 24; day++) {
 
             Integer index = random.nextInt(availablePos.size());
+            Integer position = availablePos.get(index);
 
-            Integer day = availablePos.get(index);
-
-            positions.put(day, x);
-
-            inv.setItem(day, new ItemBuilder().getPresentHead(ChatColor.RESET + "Day " + x));
-
-            availablePos.remove(day);
-
+            positions.put(position, day);
+            inv.setItem(position, new ItemBuilder().getPresentHead(ChatColor.RESET + "" + ChatColor.BLUE + "Day " + day));
+            availablePos.remove(position);
 
         }
 
-
     }
-
 
     public Inventory getCalendar() {
         return this.inv;
@@ -73,5 +58,4 @@ public class AdventCalendarInventory {
         return positions;
     }
 
-    
 }
