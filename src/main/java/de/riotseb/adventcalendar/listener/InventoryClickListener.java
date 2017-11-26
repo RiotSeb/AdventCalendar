@@ -1,5 +1,6 @@
 package de.riotseb.adventcalendar.listener;
 
+import de.riotseb.adventcalendar.AdventCalendar;
 import de.riotseb.adventcalendar.calendar.AdventCalendarInventory;
 import de.riotseb.adventcalendar.commands.AdventCalendarCommand;
 import de.riotseb.adventcalendar.util.MessageHandler;
@@ -47,9 +48,9 @@ public class InventoryClickListener implements Listener {
 
                     Calendar cal = Calendar.getInstance();
 
-                    if (cal.get(Calendar.MONTH) == Calendar.DECEMBER) {
+                    if (cal.get(Calendar.MONTH) == AdventCalendar.getPlugin().getConfig().getInt("month")) {
 
-                        if (cal.get(Calendar.DAY_OF_MONTH) == day) {
+                        if (cal.get(Calendar.DAY_OF_MONTH) == day || AdventCalendar.getPlugin().getConfig().getBoolean("bypass day")) {
 
 
                             File file = new File("plugins/AdventCalendar/openedpresents.yml");

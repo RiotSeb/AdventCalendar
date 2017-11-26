@@ -39,6 +39,7 @@ public class AdventCalendar extends JavaPlugin {
 
 
     private void setupFiles() {
+        this.saveDefaultConfig();
         this.saveResource("messages.yml", false);
         this.saveResource("adventcalendar.yml", false);
         this.saveResource("openedpresents.yml", false);

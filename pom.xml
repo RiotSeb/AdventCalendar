@@ -6,7 +6,7 @@
 
     <groupId>de.riotseb</groupId>
     <artifactId>adventcalendar</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>AdventCalendar</name>
     <description>A simple customizable advent calendar plugin.</description>
 
@@ -33,6 +33,7 @@
                     <include>adventcalendar.yml</include>
                     <include>messages.yml</include>
                     <include>openedpresents.yml</include>
+                    <include>config.yml</include>
                 </includes>
             </resource>
         </resources>

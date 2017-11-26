@@ -1,0 +1,4 @@
+# You may change the month here to test. Be aware that counting starts with 0 like January = 0, Februrary = 1 ...
+month: 11
+# This allows you to bypass the day. If set to true, you can open every present.
+bypass day: false
