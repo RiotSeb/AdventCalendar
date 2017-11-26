@@ -39,6 +39,24 @@ public class MessageHandler {
         }
     }
 
+    public String getMessageRaw(String key) {
+        String message = config.getString(key);
+
+
+        if (message != null) {
+
+            message = ChatColor.translateAlternateColorCodes('&', message);
+
+            return message;
+        } else {
+
+            message = getPrefix() + ChatColor.RED + "Error - Missing Message! Please contact an administrator. [" + key + "]";
+            return message;
+
+        }
+
+    }
+
     /**
      * Get the prefix which is set in the messages.yml
      *

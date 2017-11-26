@@ -26,7 +26,7 @@ public class AdventCalendarInventory {
         MessageHandler msgHandler = new MessageHandler();
         List<Integer> availablePos = new ArrayList<>();
 
-        inv = Bukkit.createInventory(null, 54, msgHandler.getPrefix());
+        inv = Bukkit.createInventory(null, 54, msgHandler.getMessageRaw("gui inventory name"));
 
         ItemStack filler = new ItemBuilder(Material.STAINED_GLASS_PANE, 1, (byte) 7)
                 .withDisplayName(ChatColor.RED + "X")
@@ -43,7 +43,7 @@ public class AdventCalendarInventory {
             Integer position = availablePos.get(index);
 
             positions.put(position, day);
-            inv.setItem(position, new ItemBuilder().getPresentHead(ChatColor.RESET + "" + ChatColor.BLUE + "Day " + day));
+            inv.setItem(position, new ItemBuilder().getPresentHead(msgHandler.getMessageRaw("present names in gui").replaceAll("%day%", day.toString())));
             availablePos.remove(position);
 
         }

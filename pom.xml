@@ -6,7 +6,7 @@
 
     <groupId>de.riotseb</groupId>
     <artifactId>adventcalendar</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <name>AdventCalendar</name>
     <description>A simple customizable advent calendar plugin.</description>
 
@@ -14,6 +14,7 @@
         <author>RiotSeb</author>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>dd.MM.yyyy HH:mm</maven.build.timestamp.format>
+        <timeZone>CET</timeZone>
     </properties>
 
 
