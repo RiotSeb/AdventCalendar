@@ -19,6 +19,10 @@ public class InventoryListener implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 
+		if (event.getClickedInventory() == null) {
+			return;
+		}
+
 		UUID playerId = event.getWhoClicked().getUniqueId();
 		InventoryMenu inventoryMenu = InventoryHandler.getInstance().getOpenMenus().get(playerId);
 
