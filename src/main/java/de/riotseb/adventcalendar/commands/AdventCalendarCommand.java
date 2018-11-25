@@ -1,67 +1,129 @@
 package de.riotseb.adventcalendar.commands;
 
-
-import de.riotseb.adventcalendar.AdventCalendar;
-import de.riotseb.adventcalendar.calendar.AdventCalendarInventory;
-import de.riotseb.adventcalendar.util.MessageHandler;
+import com.google.common.collect.Lists;
+import de.riotseb.adventcalendar.AdventCalendarMain;
+import de.riotseb.adventcalendar.handler.InventoryHandler;
+import de.riotseb.adventcalendar.inventory.InventoryMenu;
+import de.riotseb.adventcalendar.util.ItemBuilder;
+import de.riotseb.adventcalendar.util.Messages;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
+import java.util.stream.IntStream;
 
-/**
- * Class created by RiotSeb on 23/11/2017.
- */
-public class AdventCalendarCommand extends BukkitCommand {
+public class AdventCalendarCommand implements CommandExecutor {
 
-    private MessageHandler msgHandler = new MessageHandler();
-    private static Map<UUID, AdventCalendarInventory> calendars = new HashMap<>();
+	private File file = new File(AdventCalendarMain.getInstance().getDataFolder() + File.separator + "openedpresents.yml");
+	private YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-    public AdventCalendarCommand(String command, String description, String... aliases) {
-        super(command);
-        this.description = description;
-        List<String> aliasList = new ArrayList<>();
-        aliasList.addAll(Arrays.asList(aliases));
-        this.setAliases(aliasList);
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-    }
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(Messages.PLAYER_ONLY.get());
+			return true;
+		}
 
-    @Override
-    public boolean execute(CommandSender sender, String label, String[] args) {
+		if (!sender.hasPermission(AdventCalendarMain.PERM_OPEN)) {
+			sender.sendMessage(Messages.NO_PERMISSIONS.get());
+			return true;
+		}
 
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(msgHandler.getMessage("player only use"));
-            return true;
-        }
+		Player player = (Player) sender;
 
-        Player p = (Player) sender;
+		InventoryMenu menu = new InventoryMenu(5, Messages.GUI_INVENTORY_TITLE.getRaw());
+		menu.fill();
 
-        if (p.hasPermission("AdventCalendar.use")) {
+		List<Integer> availableSlots = Lists.newArrayList();
 
-            if (args.length == 0) {
+		IntStream.range(0, 5 * 9)
+				.forEach(availableSlots::add);
 
-                AdventCalendarInventory calendar = new AdventCalendarInventory();
+		IntStream.rangeClosed(1, 24)
+				.forEach(index -> {
 
-                p.openInventory(calendar.getCalendar());
-                calendars.put(p.getUniqueId(), calendar);
+					int random = ThreadLocalRandom.current().nextInt(availableSlots.size() - 1);
+					int slot = availableSlots.remove(random);
 
-                p.setMetadata("calendar", new FixedMetadataValue(AdventCalendar.getPlugin(), true));
+					menu.setItem(ItemBuilder.getPresentHead(Messages.PRESENT_NAME_GUI.getRawReplaced("%day%", "" + index)),
+							slot, (integer, player1) -> {
 
-                return true;
-            } else {
-                msgHandler.sendUsage(p, "/ac");
-                return true;
-            }
+								LocalDate today = LocalDate.now();
 
-        } else {
-            p.sendMessage(msgHandler.getMessage("no perms"));
-            return true;
-        }
-    }
+								if (today.getMonth() != Month.DECEMBER) {
+									player1.sendMessage(Messages.WRONG_MONTH.get());
+									return;
+								}
 
-    public static Map<UUID, AdventCalendarInventory> getCalendars() {
-        return calendars;
-    }
+								if (today.getDayOfMonth() != index) {
+									player1.sendMessage(Messages.WRONG_DAY.getDateReplaced(index));
+									return;
+								}
+
+								List<Integer> acquiredDays = config.getIntegerList("" + player1.getUniqueId());
+
+								if (acquiredDays == null) {
+									acquiredDays = Lists.newArrayList();
+								}
+
+								if (acquiredDays.contains(index)) {
+									player1.sendMessage(Messages.PRESENT_ALREADY_CLAIMED.get());
+									return;
+								}
+
+								List<ItemStack> contents = InventoryHandler.getInstance().getContentsList(index);
+
+								if (!hasEnoughSpace(player1.getInventory(), contents.size())) {
+									player1.sendMessage(Messages.NOT_ENOUGH_SPACE.get());
+									return;
+								}
+
+								contents.forEach(item -> player1.getInventory().addItem(item));
+								acquiredDays.add(index);
+
+								player1.sendMessage(Messages.ITEMS_GRANTED.get());
+
+								player1.closeInventory();
+
+								config.set("" + player1.getUniqueId(), acquiredDays);
+
+								try {
+									config.save(file);
+								} catch (IOException exception) {
+									AdventCalendarMain.getInstance().getLogger().log(Level.SEVERE, "Error when saving an acquired day", exception);
+								}
+
+							});
+
+				});
+
+		menu.openInventory(player);
+
+		return true;
+	}
+
+	private boolean hasEnoughSpace(Inventory inv, int needed) {
+
+		int ingredients = Arrays.stream(inv.getContents())
+				.filter(Objects::nonNull)
+				.mapToInt(item -> 1)
+				.sum();
+
+		return (inv.getSize() - ingredients) >= needed;
+	}
+
 }

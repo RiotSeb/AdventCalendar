@@ -1,3 +1,4 @@
+# Every message that is send to players
 prefix: "&7[&3AdventCalendar&7] &r"
 player only use: "&cYou may use this command as player only."
 no perms: "&cYou do not have enough permissions to do that."
@@ -7,10 +8,10 @@ no number between 1 and 24: "&cYour number must be between 1 and 24. (&e%number%
 edit calendar inventory title: "&ledit day %day%"
 not enough space: "&cYou do not have enough space in your inventory for this present(s)."
 items granted: "&aYou received the presents for today!"
-no presents set for day: "&cThere has not been presents set for this day yet."
 wrong day: "&cToday is not the &6%day% &cof december!"
 wrong month: "&cIt is not december yet!"
-present already claimed: "&cYou claimed the present for today already!"
+present already claimed: "&cYou already claimed the presents for today!"
 inventory saved: "&aYou saved the items for day %day%."
+inventory not saved: "&cAn error occurred when trying to save the items."
 present names in gui: "&r&9Day %day%"
 gui inventory name: "&7[&3AdventCalendar&7]"

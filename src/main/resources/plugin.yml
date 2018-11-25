@@ -1,5 +1,15 @@
 name: ${project.name}
 author: ${author}
 version: ${project.version}(built ${timestamp})
-main: ${project.groupId}.${project.artifactId}.${project.name}
+main: ${project.groupId}.${project.artifactId}.AdventCalendarMain
 description: ${project.description}
+
+api-version: 1.13
+
+commands:
+  adventcalendar:
+    aliases: ['ac', 'advent']
+    description: 'Open the adventcalendar'
+  editadventcalendar:
+    aliases: ['eac']
+    description: 'Edit the contents of the adventcalendar'
